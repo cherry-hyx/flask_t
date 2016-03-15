@@ -7,9 +7,10 @@ Created on 2016年3月14日
 '''
 __author__ = 'cherry'
 
-from flask.ext.wtf import Form, TextField, BooleanField
-from flask.ext.wtf import Required
+from flask.ext.wtf import Form
+from wtforms.fields import StringField, BooleanField
+from wtforms import validators
  
 class LoginForm(Form):
-    openid = TextField('openid', validators=[Required()])
+    openid = StringField(u'Full Name', [validators.required(), validators.length(max=80)])
     remember_me = BooleanField('remember_me', default=False)

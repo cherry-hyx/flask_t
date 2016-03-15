@@ -7,12 +7,8 @@ Created on 2016年3月14日
 '''
 __author__ = 'cherry'
 
-from flask import Flask
-from flask import abort
-from flask import jsonify
-from flask import make_response
-from flask import render_template
-from flask import request, redirect
+from flask import render_template, flash
+from flask import redirect
 
 from app import app
 from forms import LoginForm
@@ -65,8 +61,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         flash('Login requested for OpenID="' + form.openid.data + '", remember_me=' + str(form.remember_me.data))
-        return redirect('/index')
+        return redirect('/test')
     return render_template('login.html',
         title='Sign In',
         form=form,
-        providers=app.config['OPENID_PROVIDERS'])
+        providers=app.config.get('OPENID_PROVIDERS'))
