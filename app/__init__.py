@@ -1,8 +1,12 @@
-from flask import Flask
-from config import load_config
-from sqlalchemy import MetaData
-from flask.ext.sqlalchemy import SQLAlchemy
+import os
 
+from flask import Flask
+from flask.ext.login import LoginManager
+from flask.ext.openid import OpenID
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import MetaData
+
+from config import load_config
 
 app=Flask(__name__)
 config = load_config()
@@ -20,7 +24,25 @@ convention = {
 metadata = MetaData(naming_convention=convention)
 
 db = SQLAlchemy(app)
+lm = LoginManager()
+lm.init_app(app)
+lm.session_protection = "strong"
+lm.login_view = "login"
 
-from app import views, models
+lm.login_message = u'test!!'
+print app.config.get('basedir')
 
+oid = OpenID(app, os.path.join(os.path.dirname(os.getcwd()), 'tmp'))
+
+from . import views, models
+
+if not app.debug:
+    import logging
+    from logging.handlers import RotatingFileHandler
+    file_handler = RotatingFileHandler(os.path.join(os.path.dirname(os.getcwd()), 'tmp')+'/microblog.log', 'a', 1 * 1024 * 1024, 10)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    app.logger.setLevel(logging.INFO)
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.info('microblog startup')
 

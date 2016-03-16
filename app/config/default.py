@@ -15,7 +15,7 @@ class Config(object):
         { 'name': 'Yahoo', 'url': 'https://me.yahoo.com' },
         { 'name': 'AOL', 'url': 'http://openid.aol.com/ttt' },
         { 'name': 'Flickr', 'url': 'http://www.flickr.com/ttt' },
-        { 'name': 'MyOpenID', 'url': 'https://www.myopenid.com' }]
+        { 'name': 'openoid', 'url': 'http://cherryhz.openid.org.cn/' }]
 
     import os
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -23,7 +23,13 @@ class Config(object):
     #SQLALCHEMY_DATABASE_URI是the Flask-SQLAlchemy必需的扩展。这是我们的数据库文件的路径。
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     #SQLALCHEMY_MIGRATE_REPO 是用来存储SQLAlchemy-migrate数据库文件的文件夹
+    MAIL_SERVER = 'localhost'
+    MAIL_PORT = 25
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
 
+    # administrator list
+    ADMINS = ['you@example.com']
     @staticmethod
     def init_app(app):
         pass
