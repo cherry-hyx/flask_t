@@ -28,19 +28,21 @@ lm = LoginManager()
 lm.init_app(app)
 lm.session_protection = "strong"
 lm.login_view = "login"
-
 lm.login_message = u'test!!'
-print app.config.get('basedir')
 
-oid = OpenID(app, os.path.join(os.path.dirname(os.getcwd()), 'tmp'))
+tmpdir = os.path.abspath(os.path.dirname(__file__))
+print os.path.join(tmpdir, 'tmp')
+
+oid = OpenID(app, os.path.join(tmpdir, 'tmp'))
 
 from . import views, models
+
 
 
 if not app.debug:
     import logging
     from logging.handlers import RotatingFileHandler
-    file_handler = RotatingFileHandler(os.path.join(os.path.dirname(os.getcwd()), 'tmp')+'/microblog.log', 'a', 1 * 1024 * 1024, 10)
+    file_handler = RotatingFileHandler(os.path.join(tmpdir, 'tmp')+'/microblog.log', 'a', 1 * 1024 * 1024, 10)
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)

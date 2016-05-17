@@ -19,10 +19,12 @@ class Config(object):
 
     import os
     basedir = os.path.abspath(os.path.dirname(__file__))
+    BASEDIR = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     #SQLALCHEMY_DATABASE_URI是the Flask-SQLAlchemy必需的扩展。这是我们的数据库文件的路径。
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     #SQLALCHEMY_MIGRATE_REPO 是用来存储SQLAlchemy-migrate数据库文件的文件夹
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     MAIL_SERVER = 'localhost'
     MAIL_PORT = 25
     MAIL_USERNAME = None
